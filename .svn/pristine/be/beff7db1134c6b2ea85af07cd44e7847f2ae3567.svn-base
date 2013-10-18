@@ -1,0 +1,23 @@
+import javax.swing.JFrame;
+
+
+public class Game {
+	private JFrame frame;
+	private int windowSize = 700;
+	
+	public Game(){
+		setupInterface();
+	}
+	
+	private void setupInterface(){
+		// Set up a window .
+		frame = new JFrame("Cludo");
+		frame.setSize(windowSize, windowSize);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public static void main(String[] args) {
+		Game g = new Game();
+	}
+
+}

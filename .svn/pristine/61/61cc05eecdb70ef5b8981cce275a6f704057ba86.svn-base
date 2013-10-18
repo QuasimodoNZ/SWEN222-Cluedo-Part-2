@@ -1,0 +1,60 @@
+import java.awt.BorderLayout;
+import java.awt.Graphics;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class Game {
+	private JFrame frame;
+	private JComponent cludoBoard;
+	private int windowSize = 700;
+
+	public Game() {
+		setupInterface();
+	}
+
+	/**
+	 * Creates all of the J areas and adds it to the frame
+	 */
+	private void setupInterface() {
+		// Set up a window
+		frame = new JFrame("Cludo");
+		frame.setSize(windowSize, windowSize);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// Setup the Cludo Board area
+		cludoBoard = new JComponent() {
+			protected void paintComponent(Graphics g) {
+				redraw(g);
+			}
+		};
+		frame.add(cludoBoard, BorderLayout.WEST);
+
+		// Set up the panel to hold all of the buttons
+		JPanel panel = new JPanel();
+		frame.add(panel, BorderLayout.EAST);
+
+		// Add buttons to the panel.
+		JButton button = new JButton("TEST");
+		panel.add(button);
+
+		// Once it is all set up, make the interface visible
+		frame.setVisible(true);
+	}
+
+	/**
+	 * Redraws the Cludo Board
+	 * 
+	 * @param g
+	 */
+	public void redraw(Graphics g) {
+
+	}
+
+	public static void main(String[] args) {
+		Game g = new Game();
+	}
+
+}

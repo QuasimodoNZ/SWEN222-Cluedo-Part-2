@@ -1,0 +1,229 @@
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
+public class CluedoFrame extends JFrame {
+	private JFrame frame;
+	
+	private JMenuBar menuBar;
+	private JMenu menu;
+	private JMenuItem menuItem;
+	private JMenuItem menuItem2;
+	
+	private ImagePanel boardPanel;
+	private JPanel sidePanel;
+	
+	private JTextArea textOutput;
+	private JScrollPane textSP;
+	private JButton accuseButton;
+	private JButton suggestButton;
+	private JLabel label;
+	private JRadioButton button1;
+	private JRadioButton button2;
+	private JRadioButton button3;
+	private ButtonGroup radioGroup;
+	
+	private GridBagConstraints grid;
+	
+	private int windowHeight = 786;
+	private int sidePanelWidth = 300;
+	private int windowWidth = windowHeight + sidePanelWidth;
+	private static String accuseList;
+
+	/**
+	 * Creates all of the J areas and adds it to the frame
+	 */
+	public CluedoFrame() {
+		super("Cluedo");
+
+		setupComponents();
+		addComponents();
+		
+		// Once it is all set up, make the interface visible
+		frame.setVisible(true);
+	}
+	/**
+	 * Creates and sets values for all of the components
+	 */
+	private void setupComponents(){
+		// Set up the window
+		frame = new JFrame("cluedo");
+		frame.setSize(windowWidth, windowHeight);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// Setup MenuBar
+		menuBar = new JMenuBar();
+
+		// Setup the Menu
+		menu = new JMenu("Options");
+		menu.setMnemonic(KeyEvent.VK_A);
+		menu.getAccessibleContext().setAccessibleDescription(
+				"The only menu in this program that has menu items");
+
+		// Setup menu items
+		menuItem = new JMenuItem("Start New Game", KeyEvent.VK_T);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1,
+				ActionEvent.ALT_MASK));
+		menuItem.getAccessibleContext().setAccessibleDescription(
+				"Ends current game and starts a new one");
+
+		menuItem2 = new JMenuItem("Quit", KeyEvent.VK_T);
+		menuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2,
+				ActionEvent.ALT_MASK));
+		menuItem2.getAccessibleContext().setAccessibleDescription(
+				"Ends current game and quits");
+
+		// Setup the panel that will hold the Cluedo Board
+		boardPanel = new ImagePanel(new ImageIcon("Images/cluedo.png").getImage());
+
+		// Setup the side panel
+		sidePanel = new JPanel(new GridBagLayout());
+		sidePanel.setSize(sidePanelWidth, windowHeight);
+		sidePanel.setBackground(Color.gray);
+
+		// Setup components to go into the sidePanel
+		// Label
+		label = new JLabel("Cluedo");
+		// Text Area
+		textOutput = new JTextArea(10, 20);
+		textOutput.setEditable(false);
+		textOutput.setText("This is a text Area");
+		textSP = new JScrollPane(textOutput);
+		// Buttons
+		accuseButton = newAccuseButton("Accuse");
+		suggestButton = newAccuseButton("Suggest");
+		// Radio Buttons
+		button1 = new JRadioButton("Button 1");
+	    button1.setMnemonic(KeyEvent.VK_B);
+	    button1.setActionCommand("Button 1");
+	    button1.setSelected(true);
+
+	    button2 = new JRadioButton("Button 2");
+	    button2.setMnemonic(KeyEvent.VK_B);
+	    button2.setActionCommand("Button 2");
+
+	    button3 = new JRadioButton("Button 3");
+	    button3.setMnemonic(KeyEvent.VK_B);
+	    button3.setActionCommand("Button 3");
+
+		// Setup the grid
+		grid = new GridBagConstraints();
+		grid.insets = new Insets(5, 5, 5, 5);
+	}
+	
+	/**
+	 * Adds all of the components to there parent object
+	 */
+	private void addComponents(){
+		menuBar.add(menu);
+		menu.add(menuItem);
+		menu.add(menuItem2);
+
+		grid.gridx = 0;
+		grid.gridy = 1;
+		sidePanel.add(label, grid);
+		grid.gridy = 2;
+		sidePanel.add(textSP, grid);
+		grid.gridy = 3;
+		sidePanel.add(accuseButton, grid);
+		grid.gridy = 4;
+		sidePanel.add(suggestButton, grid);
+		//Group the radio buttons.
+	    radioGroup = new ButtonGroup();
+	    radioGroup.add(button1);
+	    radioGroup.add(button2);
+	    radioGroup.add(button3);
+	    grid.gridy = 5;
+	    sidePanel.add(button1, grid);
+	    grid.gridy = 6;
+	    sidePanel.add(button2, grid);
+	    grid.gridy = 7;
+	    sidePanel.add(button3, grid);
+
+	    
+		frame.setJMenuBar(menuBar);
+		frame.add(boardPanel, BorderLayout.WEST);
+		frame.add(sidePanel, BorderLayout.EAST);
+	}
+
+	/**
+	 * Creates an accuse button that displays a dialog that contains 2 combo
+	 * boxes, a label and a submit button
+	 * 
+	 * @return The accuse button
+	 */
+	private static JButton newAccuseButton(final String type) {
+		final JButton button = new JButton(type);
+		button.addActionListener(new ActionListener() {
+			// Setup a popup dialog for accusing
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Window parentWindow = SwingUtilities.windowForComponent(button);
+				final JDialog dialog = new JDialog(parentWindow, type);
+				dialog.setLocationRelativeTo(button);
+				dialog.setModal(true);
+
+				// Setup Panel to hold components
+				JPanel accusePanel = new JPanel();
+				String[] items1 = { "Mrs Scarlett", "Mr Mustard", "Mrs White",
+						"Mr Green", "Mrs Peacock", "Mr Plum" };
+				final JComboBox<String> characters = new JComboBox<String>(
+						items1);
+				String[] items2 = { "Rope", "Candlestick", "Knife", "Pistol",
+						"Baseball Bat", "Dumbbell", "Trophy", "Poison", "Axe" };
+				final JComboBox<String> weapons = new JComboBox<String>(items2);
+				String[] items3 = { "Spa", "Theatre", "Living Room",
+						"Observatory", "Patio", "Swimming Pool", "Hall",
+						"Kitchen", "Dinning Room", "Guest House" };
+				final JComboBox<String> rooms = new JComboBox<String>(items3);
+				final JButton submit = new JButton("Submit");
+				button.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String character = (String) characters
+								.getSelectedItem();
+						String weapon = (String) weapons.getSelectedItem();
+						String room = (String) rooms.getSelectedItem();
+						accuseList = character + " " + weapon + " " + room;
+						System.out.println(accuseList);
+					}
+				});
+
+				// Add all the components
+				accusePanel.add(characters);
+				accusePanel.add(weapons);
+				accusePanel.add(rooms);
+				accusePanel.add(submit);
+				dialog.add(accusePanel);
+				dialog.pack();
+				dialog.setVisible(true);
+			}
+		});
+		return button;
+	}
+	
+	private ButtonGroup newRadioButtons() {
+		//Create the radio buttons.
+	    JRadioButton button1 = new JRadioButton("Button 1");
+	    button1.setMnemonic(KeyEvent.VK_B);
+	    button1.setActionCommand("Button 1");
+	    button1.setSelected(true);
+
+	    JRadioButton button2 = new JRadioButton("Button 2");
+	    button1.setMnemonic(KeyEvent.VK_B);
+	    button1.setActionCommand("Button 2");
+
+	    JRadioButton button3 = new JRadioButton("Button 3");
+	    button1.setMnemonic(KeyEvent.VK_B);
+	    button1.setActionCommand("Button 3");
+	    
+	    //Group the radio buttons.
+	    ButtonGroup group = new ButtonGroup();
+	    group.add(button1);
+	    group.add(button2);
+	    group.add(button3);
+
+		return group;
+	}
+}

@@ -1,0 +1,10 @@
+import javax.swing.JFrame;
+
+public class CludoFrame extends JFrame{
+	private CludoCanvas canvas;
+	
+	public CludoFrame(){
+		
+	}
+
+}

@@ -1,0 +1,13 @@
+import javax.swing.*;
+
+public class Game extends JPanel {
+	private CluedoFrame frame;
+
+	public Game() {
+		frame = new CluedoFrame();
+	}
+
+	public static void main(String[] args) {
+		Game g = new Game();
+	}
+}

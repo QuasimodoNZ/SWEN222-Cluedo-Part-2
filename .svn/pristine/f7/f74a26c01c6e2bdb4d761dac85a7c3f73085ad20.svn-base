@@ -1,0 +1,56 @@
+import java.awt.*;
+import java.io.*;
+import javax.swing.*;
+
+public class Game {
+	private JFrame frame;
+	private JComponent cluedoBoard;
+	private int windowSize = 700;
+
+	public Game() {
+		setupInterface();
+	}
+
+	/**
+	 * Creates all of the J areas and adds it to the frame
+	 */
+	private void setupInterface() {
+		// Set up a window
+		frame = new JFrame("cluedo");
+		frame.setSize(windowSize, windowSize);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// Setup the Cluedo Board area
+		cluedoBoard = new JComponent() {
+			protected void paintComponent(Graphics g) {
+				redraw(g);
+			}
+		};
+		frame.add(cluedoBoard, BorderLayout.WEST);
+
+		// Set up the panel to hold all of the buttons
+		JPanel panel = new JPanel();
+		frame.add(panel, BorderLayout.EAST);
+
+		// Add buttons to the panel.
+		JButton button = new JButton("TEST");
+		panel.add(button);
+
+		// Once it is all set up, make the interface visible
+		frame.setVisible(true);
+	}
+
+	/**
+	 * Redraws the Cluedo Board
+	 * 
+	 * @param g
+	 */
+	public void redraw(Graphics g) {
+
+	}
+
+	public static void main(String[] args) {
+		Game g = new Game();
+	}
+
+}

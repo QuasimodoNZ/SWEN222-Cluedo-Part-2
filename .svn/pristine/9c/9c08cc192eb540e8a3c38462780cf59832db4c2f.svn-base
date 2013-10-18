@@ -1,0 +1,16 @@
+
+public class Game {
+	
+	public Game(){
+		setupInterface();
+	}
+	
+	private void setupInterface(){
+		
+	}
+	
+	public static void main(String[] args) {
+		Game g = new Game();
+	}
+
+}
